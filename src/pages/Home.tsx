@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect, useState } from "react";
 import { Trending } from "../model/type";
 import Header from "../components/Header";
@@ -24,7 +25,6 @@ export default function HomePage() {
       setAll(allData);
     } catch (error) {
       console.error("Error fetching data:", error);
-      // Xử lý lỗi ở đây nếu cần thiết
     }
   };
 
