@@ -11,7 +11,7 @@ const NavbarGenres = ({ data, onFilter, description }: any) => {
       </div>
       <div className="flex py-5 w-[100%] overflow-hidden overflow-x-scroll scrollbar-hide">
         {
-          data.map((genre: any) => (
+          data?.map((genre: any) => (
             <div
               onClick={() => onFilter(genre.id, genre.description)}
               className="p-4 px-6 whitespace-nowrap border cursor-pointer"

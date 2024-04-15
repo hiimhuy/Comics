@@ -22,13 +22,13 @@ export default async function HomePage() {
       <Header />
       <Container>
         <div className="my-10 grid grid-cols-6 gap-4 overflow-hidden">
-          {trending?.comics?.slice(0,6).map((comic: any) => (
+          {trending?.comics?.slice(0,6)?.map((comic: any) => (
             <SlideComics data={comic} />
           ))}
         </div>
         <HeaderComic data={all} />
         <div className=" my-10 grid grid-cols-5 gap-4 ">
-          {all?.comics?.slice(0, 5).map((comic: any) => (
+          {all?.comics?.slice(0, 5)?.map((comic: any) => (
             <Comic data={comic} />
           ))}
         </div>
