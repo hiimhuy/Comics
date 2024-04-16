@@ -15,6 +15,7 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import { Favorite, Forum, MenuBook } from "@mui/icons-material";
 import Header from "@/src/components/Header";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import Loading from "@/src/components/Loading";
 
 const ComicDetail = () => {
   const [comic, setComic] = useState<IComicDetail | null>(null);
@@ -83,97 +84,102 @@ const ComicDetail = () => {
       console.error("Error downloading:", err);
     }
   };
-  const FirstChapterId = comic?.chapters && comic.chapters.length > 0
-  ? comic.chapters[comic.chapters.length - 1].id
-  : null;
+  const FirstChapterId =
+    comic?.chapters && comic.chapters.length > 0
+      ? comic.chapters[comic.chapters.length - 1].id
+      : null;
 
   return (
     <>
       <Header />
-      <div className="relative pt-12 px-4 min-h-screen">
-        <div className="absolute top-0 inset-x-0 h-80 bg-gradient-to-b from-emerald-100 z-10">
-          <Container>
-            <div className="flex gap-10 border-4 border-white rounded-lg p-8 my-10">
-              <Image
-                src={comic?.thumbnail || ""}
-                height={300}
-                width={200}
-                loading="lazy"
-                alt="Image"
-                className="w-[200px] h-[300px] object-cover rounded-md border-2 border-[#07ba82]"
-              />
-              <div className="flex flex-col gap-2">
-                <div className="font-bold text-3xl py-2">{comic?.title}</div>
-                <div className="flex flex-wrap gap-2">
-                  {comic?.genres?.map((genre) => (
-                    <p
-                      key={genre.id}
-                      className="border-2 border-[#07ba82] rounded-md px-2 py-1 font-semibold "
+      {comic ? (
+        <div className="relative pt-12 px-4 min-h-screen">
+          <div className="absolute top-0 inset-x-0 h-80 bg-gradient-to-b from-emerald-100 z-10">
+            <Container>
+              <div className="flex gap-10 border-4 border-white rounded-lg p-8 my-10">
+                <Image
+                  src={comic?.thumbnail || ""}
+                  height={300}
+                  width={200}
+                  loading="lazy"
+                  alt="Image"
+                  className="w-[200px] h-[300px] object-cover rounded-md border-2 border-[#07ba82]"
+                />
+                <div className="flex flex-col gap-2">
+                  <div className="font-bold text-3xl py-2">{comic?.title}</div>
+                  <div className="flex flex-wrap gap-2">
+                    {comic?.genres?.map((genre) => (
+                      <p
+                        key={genre.id}
+                        className="border-2 border-[#07ba82] rounded-md px-2 py-1 font-semibold "
+                      >
+                        {genre.name}
+                      </p>
+                    ))}
+                  </div>
+                  <div className="flex gap-3 font-semibold">
+                    Creator:<p className="text-[#df89f1]">{comic?.authors}</p>
+                  </div>
+                  <div className="flex gap-4">
+                    <div className="flex gap-1">
+                      <VisibilityIcon className="text-blue-400" />
+                      <p className="font-semibold">
+                        {formatNumber(comic?.total_views)}
+                      </p>
+                    </div>
+                    <div className="flex gap-1">
+                      <Favorite className="text-red-400" />
+                      <p className="font-semibold">
+                        {formatNumber(comic?.followers)}
+                      </p>
+                    </div>
+                  </div>
+                  <div>{comic?.description}</div>
+                  <Link
+                    href={`/${comicId}/chapter/${FirstChapterId}`}
+                    className="flex gap-2 px-4 py-2 font-semibold w-[150px] text-xl bg-[#07ba82] text-white rounded-md"
+                  >
+                    <AutoStoriesIcon className="w-6 h-6" />
+                    <p>Read now</p>
+                  </Link>
+                  {/* <button onClick={handleDownload}>
+                    <FileDownloadIcon />
+                  </button> */}
+                </div>
+              </div>
+              <div className="">
+                <div className="flex border-b-2 pb-2 gap-5 text-xl font-semibold">
+                  <div className="flex gap-1 items-center">
+                    <MenuBook className="text-[#07ba82] w-6 h-6" />
+                    <p>Chapters</p>
+                  </div>
+                  <div className="flex gap-1 items-center">
+                    <Forum className="text-[#07ba82] w-6 h-6" />
+                    <p>Comments</p>
+                  </div>
+                </div>
+
+                <div
+                  className="grid grid-cols-5 gap-6 py-10 place-items-center h-[550px] overflow-y-scroll scrollbar-hide"
+                  style={{}}
+                >
+                  {comic?.chapters?.map((chapter) => (
+                    <Link
+                      href={`/${comicId}/chapter/${chapter?.id}`}
+                      key={chapter?.id}
+                      className="w-[80%] py-1 px-3 border"
                     >
-                      {genre.name}
-                    </p>
+                      {chapter?.name}
+                    </Link>
                   ))}
                 </div>
-                <div className="flex gap-3 font-semibold">
-                  Creator:<p className="text-[#df89f1]">{comic?.authors}</p>
-                </div>
-                <div className="flex gap-4">
-                  <div className="flex gap-1">
-                    <VisibilityIcon className="text-blue-400" />
-                    <p className="font-semibold">
-                      {formatNumber(comic?.total_views)}
-                    </p>
-                  </div>
-                  <div className="flex gap-1">
-                    <Favorite className="text-red-400" />
-                    <p className="font-semibold">
-                      {formatNumber(comic?.followers)}
-                    </p>
-                  </div>
-                </div>
-                <div>{comic?.description}</div>
-                <Link
-                  href={`/${comicId}/chapter/${FirstChapterId}`}
-                  className="flex gap-2 px-4 py-2 font-semibold w-[150px] text-xl bg-[#07ba82] text-white rounded-md"
-                >
-                  <AutoStoriesIcon className="w-6 h-6" />
-                  <p>Read now</p>
-                </Link>
-                {/* <button onClick={handleDownload}>
-                  <FileDownloadIcon />
-                </button> */}
               </div>
-            </div>
-            <div className="">
-              <div className="flex border-b-2 pb-2 gap-5 text-xl font-semibold">
-                <div className="flex gap-1 items-center">
-                  <MenuBook className="text-[#07ba82] w-6 h-6" />
-                  <p>Chapters</p>
-                </div>
-                <div className="flex gap-1 items-center">
-                  <Forum className="text-[#07ba82] w-6 h-6" />
-                  <p>Comments</p>
-                </div>
-              </div>
-
-              <div
-                className="grid grid-cols-5 gap-6 py-10 place-items-center h-[550px] overflow-y-scroll scrollbar-hide"
-                style={{}}
-              >
-                {comic?.chapters?.map((chapter) => (
-                  <Link
-                    href={`/${comicId}/chapter/${chapter?.id}`}
-                    key={chapter?.id}
-                    className="w-[80%] py-1 px-3 border"
-                  >
-                    {chapter?.name}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </Container>
+            </Container>
+          </div>
         </div>
-      </div>
+      ) : (
+        <Loading />
+      )}
     </>
   );
 };

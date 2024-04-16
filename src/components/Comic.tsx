@@ -14,7 +14,7 @@ const Comic = ({ data }: any) => {
     return num;
   }
 
-  console.log(data.id)
+  // console.log(data.id)
 
   return (
     <Link href={`/comic/${data.id}`} key={data.id} className="h-[290px]">
