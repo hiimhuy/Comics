@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { fetchDataSearch } from "../apiServices";
 import { IComicDetail } from "../model/type";
@@ -9,6 +9,9 @@ const Header = () => {
   const [query, setQuery] = useState<string>('');
   const [searchResult, setSearchResult] = useState<IComicDetail[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [show, setShow] = useState(false);
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const throttle = (func: any, delay: number) => {
     let lastCall = 0;
@@ -35,6 +38,11 @@ const Header = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newQuery = e.target.value;
+    if (newQuery === '') {
+      setShow(false);
+    } else {
+      setShow(true);
+    }
     debouncedSearch(newQuery);
     setQuery(newQuery);
   };
@@ -42,6 +50,19 @@ const Header = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
+
+  const handleClickOutside = (e: MouseEvent) => {
+    if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
+      setShow(false);
+    }
+  };
+
+  React.useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="px-24 py-2 border-b-2 flex justify-between">
@@ -56,8 +77,8 @@ const Header = () => {
           <Link href={"/top/"}>Top</Link>
         </div>
       </div>
-      <form onSubmit={handleSubmit}>
-        <div className="flex items-center gap-2">
+      <form onSubmit={handleSubmit} onClick={()=>setShow(true)}>
+        <div className="flex items-center gap-2" ref={inputRef}>
           <div className="relative border rounded-3xl focus:border-black">
             <input
               className="py-1 px-6 w-80  rounded-3xl focus:outline-none focus:border-black"
@@ -70,7 +91,7 @@ const Header = () => {
               <SearchIcon className="h-5 w-5" />
             </button>
           </div>
-          {searchResult.length > 0 && <SearchResults results={searchResult} />}
+          {searchResult.length > 0 && show && <SearchResults results={searchResult} />}
           {/* {error && <div className="text-red-500">{error}</div>} */}
         </div>
       </form>
