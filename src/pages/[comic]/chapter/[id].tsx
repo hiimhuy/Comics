@@ -10,6 +10,7 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import HomeIcon from "@mui/icons-material/Home";
 import RocketIcon from "@mui/icons-material/Rocket";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import Loading from "@/src/components/Loading";
 
 const ChapterPage = () => {
   const router = useRouter();
@@ -129,80 +130,82 @@ const ChapterPage = () => {
   
 
   return (
-    <div className="relative h-screen bg-[#111114]">
-      <div className="absolute flex h-[60px] w-[100%] gap-4 bg-black/60 justify-between items-center text-white z-10 px-12">
-        <Link href={"/"} className="flex items-end">
-          <HomeIcon />
-        </Link>
-        <div>
-          <Link href={`/comic/${comic}`}>{chapter?.comic_name}</Link>
-          <NavigateNextIcon />
-          {chapter?.chapter_name}
+   <>
+     {chapter ? <div className="relative h-screen bg-[#111114]">
+        <div className="absolute flex h-[60px] w-[100%] gap-4 bg-black/60 justify-between items-center text-white z-10 px-12">
+          <Link href={"/"} className="flex items-end">
+            <HomeIcon />
+          </Link>
+          <div>
+            <Link href={`/comic/${comic}`}>{chapter?.comic_name}</Link>
+            <NavigateNextIcon />
+            {chapter?.chapter_name}
+          </div>
+          <div
+            onClick={() => setEspisodes(!espisodes)}
+            className="relative text-pink-400 font-semibold hover:text-pink-700 cursor-pointer"
+          >
+            Espisodes
+            {espisodes && (
+              <div className="absolute bg-white rounded-sm border border-[#07ba82] text-black top-12 right-[-40px] w-[350px] h-[630px] overflow-y-scroll scrollbar-hide shadow-lg grid grid-cols-2 place-items-center gap-2 p-1">
+                {chapter?.chapters?.map((chapter: any) => (
+                  <Link
+                    href={`/${comic}/chapter/${chapter?.id}`}
+                    key={chapter?.id}
+                    className="w-[80%] py-1 px-3 border hover:bg-[#07ba82] hover:text-white"
+                  >
+                    {chapter?.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
         <div
-          onClick={() => setEspisodes(!espisodes)}
-          className="relative text-pink-400 font-semibold hover:text-pink-700 cursor-pointer"
+          ref={imagesRef}
+          className="flex flex-col items-center overflow-hidden h-[100%] overflow-y-scroll scrollbar-hide"
         >
-          Espisodes
-          {espisodes && (
-            <div className="absolute bg-white rounded-sm border border-[#07ba82] text-black top-12 right-[-40px] w-[350px] h-[630px] overflow-y-scroll scrollbar-hide shadow-lg grid grid-cols-2 place-items-center gap-2 p-1">
-              {chapter?.chapters?.map((chapter: any) => (
-                <Link
-                  href={`/${comic}/chapter/${chapter?.id}`}
-                  key={chapter?.id}
-                  className="w-[80%] py-1 px-3 border hover:bg-[#07ba82] hover:text-white"
-                >
-                  {chapter?.name}
-                </Link>
-              ))}
-            </div>
-          )}
+          {chapter?.images?.map((chap) => (
+            <Image
+              key={chap?.page}
+              height={500}
+              width={700}
+              src={chap?.src || chap?.backup_src}
+              loading="lazy"
+              alt="image"
+            />
+          ))}
         </div>
-      </div>
-      <div
-        ref={imagesRef}
-        className="flex flex-col items-center overflow-hidden h-[100%] overflow-y-scroll scrollbar-hide"
-      >
-        {chapter?.images?.map((chap) => (
-          <Image
-            key={chap?.page}
-            height={500}
-            width={700}
-            src={chap?.src || chap?.backup_src}
-            loading="lazy"
-            alt="image"
-          />
-        ))}
-      </div>
-      {/* <button
-        onClick={scrollToTop}
-        className="absolute z-auto bottom-20 right-10 bg-white h-10 w-10 rounded-full flex items-center justify-center"
-      >
-        <RocketIcon className="text-[#07ba82]" />
-      </button> */}
-      <div className="absolute flex h-[60px] bottom-0 w-[100%] gap-4 bg-black/40 justify-center items-center text-white z-10">
-        <div>
-          {currentChapter}/{chapter?.images?.length}
+        {/* <button
+          onClick={scrollToTop}
+          className="absolute z-auto bottom-20 right-10 bg-white h-10 w-10 rounded-full flex items-center justify-center"
+        >
+          <RocketIcon className="text-[#07ba82]" />
+        </button> */}
+        <div className="absolute flex h-[60px] bottom-0 w-[100%] gap-4 bg-black/40 justify-center items-center text-white z-10">
+          <div>
+            {currentChapter}/{chapter?.images?.length}
+          </div>
+          <button
+            onClick={PrevChapter}
+            className="w-20 h-8 rounded-full bg-[#07ba82] text-white px-2"
+          >
+            <KeyboardBackspaceIcon />
+            Prev
+          </button>
+          <button
+            onClick={NextChapter}
+            className="w-20 h-8 rounded-full bg-[#07ba82] text-white px-2"
+          >
+            Next
+            <ArrowRightAltIcon />
+          </button>
+          <button onClick={handleDownload}>
+            <FileDownloadIcon/>
+          </button>
         </div>
-        <button
-          onClick={PrevChapter}
-          className="w-20 h-8 rounded-full bg-[#07ba82] text-white px-2"
-        >
-          <KeyboardBackspaceIcon />
-          Prev
-        </button>
-        <button
-          onClick={NextChapter}
-          className="w-20 h-8 rounded-full bg-[#07ba82] text-white px-2"
-        >
-          Next
-          <ArrowRightAltIcon />
-        </button>
-        <button onClick={handleDownload}>
-          <FileDownloadIcon/>
-        </button>
-      </div>
-    </div>
+      </div> : <Loading/>}
+   </>
   );
 };
 
