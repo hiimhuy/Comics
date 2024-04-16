@@ -48,22 +48,20 @@ export default function GenresPage() {
 
   return (
     <>
+      <Header />
       {genres && comics ? (
-        <>
-          <Header />
-          <Container>
-            <NavbarGenres
-              data={genres}
-              onFilter={handleGenreClick}
-              description={selectedGenreDescription}
-            />
-            <div className="grid grid-cols-5">
-              {comics?.map((comic: any) => (
-                <Comic key={comic.id} data={comic} />
-              ))}
-            </div>
-          </Container>
-        </>
+        <Container>
+          <NavbarGenres
+            data={genres}
+            onFilter={handleGenreClick}
+            description={selectedGenreDescription}
+          />
+          <div className="grid grid-cols-5">
+            {comics?.map((comic: any) => (
+              <Comic key={comic.id} data={comic} />
+            ))}
+          </div>
+        </Container>
       ) : (
         <Loading />
       )}

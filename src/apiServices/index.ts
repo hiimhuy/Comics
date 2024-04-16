@@ -158,8 +158,18 @@ export async function SingleChapter(comic_id: string, chapter_id: string) {
   return data;
 }
 
-export async function TopAll(page: number, status: string) {
-  const res = await fetch(`${URL}/top?page=${page}&status=${status}`);
+// export async function TopAll(page: number, status: string) {
+//   const res = await fetch(`${URL}/top?page=${page}&status=${status}`);
+//   if (!res.ok) {
+//     throw new Error("Failed to fetch data");
+//   }
+
+//   const data = await res.json();
+//   return data;
+// }
+
+export async function Top(option:string='',page: number, status: string) {
+  const res = await fetch(`${URL}/top/${option}?page=${page}&status=${status}`);
   if (!res.ok) {
     throw new Error("Failed to fetch data");
   }
@@ -168,62 +178,52 @@ export async function TopAll(page: number, status: string) {
   return data;
 }
 
-export async function TopDaily(page: number, status: string) {
-  const res = await fetch(`${URL}/top/daily?page=${page}&status=${status}`);
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
+// export async function TopWeekly(page: number, status: string) {
+//   const res = await fetch(`${URL}/top/weekly?page=${page}&status=${status}`);
+//   if (!res.ok) {
+//     throw new Error("Failed to fetch data");
+//   }
 
-  const data = await res.json();
-  return data;
-}
+//   const data = await res.json();
+//   return data;
+// }
 
-export async function TopWeekly(page: number, status: string) {
-  const res = await fetch(`${URL}/top/weekly?page=${page}&status=${status}`);
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
+// export async function TopMonthly(page: number, status: string) {
+//   const res = await fetch(`${URL}/top/monthly?page=${page}&status=${status}`);
+//   if (!res.ok) {
+//     throw new Error("Failed to fetch data");
+//   }
 
-  const data = await res.json();
-  return data;
-}
+//   const data = await res.json();
+//   return data;
+// }
 
-export async function TopMonthly(page: number, status: string) {
-  const res = await fetch(`${URL}/top/monthly?page=${page}&status=${status}`);
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
+// export async function TopChapter(page: number, status: string) {
+//   const res = await fetch(`${URL}/top/chapter?page=${page}&status=${status}`);
+//   if (!res.ok) {
+//     throw new Error("Failed to fetch data");
+//   }
 
-  const data = await res.json();
-  return data;
-}
+//   const data = await res.json();
+//   return data;
+// }
 
-export async function TopChapter(page: number, status: string) {
-  const res = await fetch(`${URL}/top/chapter?page=${page}&status=${status}`);
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
+// export async function TopFollow(page: number, status: string) {
+//   const res = await fetch(`${URL}/top/follow?page=${page}&status=${status}`);
+//   if (!res.ok) {
+//     throw new Error("Failed to fetch data");
+//   }
 
-  const data = await res.json();
-  return data;
-}
+//   const data = await res.json();
+//   return data;
+// }
 
-export async function TopFollow(page: number, status: string) {
-  const res = await fetch(`${URL}/top/follow?page=${page}&status=${status}`);
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
+// export async function TopComment(page: number, status: string) {
+//   const res = await fetch(`${URL}/top/comment?page=${page}&status=${status}`);
+//   if (!res.ok) {
+//     throw new Error("Failed to fetch data");
+//   }
 
-  const data = await res.json();
-  return data;
-}
-
-export async function TopComment(page: number, status: string) {
-  const res = await fetch(`${URL}/top/comment?page=${page}&status=${status}`);
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
-  const data = await res.json();
-  return data;
-}
+//   const data = await res.json();
+//   return data;
+// }

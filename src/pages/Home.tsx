@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Trending } from "../model/type";
 import Header from "../components/Header";
 import Container from "../components/Container";
-import { TopAll, fetchDataTrending } from "../apiServices";
+import { Top, fetchDataTrending } from "../apiServices";
 import SlideComics from "../components/SlideComics";
 import Comic from "../components/Comic";
 import HeaderComic from "../components/HeaderComic";
@@ -21,7 +21,7 @@ export default function HomePage() {
   const fetchData = async () => {
     try {
       const trendingData: Trending = await fetchDataTrending(1);
-      const allData: Trending = await TopAll(1, "completed");
+      const allData: Trending = await Top('',1, "completed");
       setTrending(trendingData);
       setAll(allData);
     } catch (error) {

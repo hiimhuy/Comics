@@ -54,3 +54,9 @@ export interface IChapters{
     src:string
   }[]
 }
+
+export interface IComics{
+  comics:IComicDetail[]
+  current_page:number
+  total_pages:number
+}

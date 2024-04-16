@@ -84,14 +84,15 @@ const ComicDetail = () => {
       console.error("Error downloading:", err);
     }
   };
-  const FirstChapterId = comic?.chapters && comic.chapters.length > 0
-  ? comic.chapters[comic.chapters.length - 1].id
-  : null;
+  const FirstChapterId =
+    comic?.chapters && comic.chapters.length > 0
+      ? comic.chapters[comic.chapters.length - 1].id
+      : null;
 
   return (
     <>
-    {comic ? <>
-        <Header />
+      <Header />
+      {comic ? (
         <div className="relative pt-12 px-4 min-h-screen">
           <div className="absolute top-0 inset-x-0 h-80 bg-gradient-to-b from-emerald-100 z-10">
             <Container>
@@ -157,7 +158,7 @@ const ComicDetail = () => {
                     <p>Comments</p>
                   </div>
                 </div>
-  
+
                 <div
                   className="grid grid-cols-5 gap-6 py-10 place-items-center h-[550px] overflow-y-scroll scrollbar-hide"
                   style={{}}
@@ -176,7 +177,9 @@ const ComicDetail = () => {
             </Container>
           </div>
         </div>
-     </> : <Loading/>}
+      ) : (
+        <Loading />
+      )}
     </>
   );
 };
